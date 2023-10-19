@@ -1,15 +1,20 @@
 var choices = ["rock", "paper", "scissors"];
+var winners = [];
 
 function game() {
-    playRound();
+    for (let i = 1; i <= 5; i++) {
+       playRound(i);
+    }
+    logWins();
 }
 
-function playRound() {
+function playRound(round) {
     const playerSelection = playerChoice();
     const compSelection = compChoice();
-    console.log(compSelection);
     const winner = checkWinner(playerSelection, compSelection);
-    console.log(winner);
+    winners.push(winner);
+    logRound(playerSelection, compSelection, winner, round);
+
 }
 
 function playerChoice() {
@@ -17,10 +22,8 @@ function playerChoice() {
     while(input == null) {
         input = prompt("Type rock, paper or scissors");
     }
-
     input = input.toLowerCase();
     let check = validate(input);
-
     while (check == false) {
         input = prompt
         ("Type rock, paper, or scissors. Spelling needs to be exact. Capitalization doesn't matter")
@@ -28,7 +31,6 @@ function playerChoice() {
         while(input == null) {
             input = prompt("Type rock, paper or scissors");
         }
-        
         input = input.toLowerCase();
         check = validate(input);
     }
@@ -60,4 +62,20 @@ function checkWinner(choiceP, choiceC) {
     }
 }
 
-game();
+function logWins() {
+     let playerWins = winners.filter((item) => item == "Player").length;
+     let compWins = winners.filter((item) => item == "Computer").length;
+     let ties = winners.filter((item) => item == "Tie").length;
+     console.log('Results:');
+     console.log('Player Wins:', playerWins);
+     console.log('Computer Wins:', compWins);
+     console.log('Tie:', ties);
+}
+
+function logRound(playerChoice, compChoice, winner, round) {
+    console.log('Round: ', round);
+    console.log('Player chose: ', playerChoice);
+    console.log('Computer chose: ', compChoice);
+    console.log(winner, 'won the round!');
+    console.log('---------------------');
+}
